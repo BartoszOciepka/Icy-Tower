@@ -5,7 +5,8 @@
 
 Player::Player()
 {
-	//al_init();
+	this->x = 0;
+	this->y = 0;
 	//this->player_bitmap = al_load_bitmap("champ.png");
 }
 

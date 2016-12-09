@@ -32,7 +32,7 @@ int main()
 		al_get_keyboard_state(&klawiatura);  // odczyt stanu klawiatury
 		al_clear_to_color(al_map_rgb(0, 255, 0)); // wyczyszczenie aktualnego bufora ekranu
 		al_draw_bitmap(obrazek, 0, 0, 0);  // wyœwietlenie bitmapy "obrazek" na "Backbuffer" (bufor ekranu)
-		al_draw_bitmap(player_bitmap, i, 530, 0);
+		al_draw_bitmap(player_bitmap, player.x, player.y, 0);
 		al_flip_display(); // wyœwietlenie aktualnego bufora na ekran
 		//i += 5;
 		Sleep(20);
@@ -44,7 +44,8 @@ int main()
 		if (event.type == ALLEGRO_EVENT_TIMER) 
 		{
 			al_get_keyboard_state(&klawiatura);
-			if (al_key_down(&klawiatura, ALLEGRO_KEY_RIGHT))i += 5;
+			if (al_key_down(&klawiatura, ALLEGRO_KEY_RIGHT) && player.x <570)player.x += 5;
+			if (al_key_down(&klawiatura, ALLEGRO_KEY_LEFT))player.x -= 5;
 		}
 		
 

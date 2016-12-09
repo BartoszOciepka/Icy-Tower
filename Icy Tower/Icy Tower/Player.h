@@ -4,6 +4,7 @@ class Player
 public:
 	Player();
 	~Player();
-	//ALLEGRO_BITMAP * player_bitmap;
+	int x;
+	int y;
 };
 
