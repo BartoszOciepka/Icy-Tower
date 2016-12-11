@@ -5,8 +5,12 @@
 
 Player::Player()
 {
-	this->x = 0;
-	this->y = 0;
+	this->x = 300;
+	this->y = 499;
+	this->speed = 0;
+	this->vertical_speed = 0;
+	this->jump_height = 150;
+
 	//this->player_bitmap = al_load_bitmap("champ.png");
 }
 
