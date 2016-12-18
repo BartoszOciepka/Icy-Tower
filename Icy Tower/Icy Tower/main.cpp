@@ -11,7 +11,7 @@ int main()
 { //		************CONTROL PANEL ************************
 	const int RIGHT_END = 537;
 	const int LEFT_END = 50;
-	const float SPEED_SLOWDOWN = 0.7;
+	const float SPEED_SLOWDOWN = 0.95;
 	const float SPEED_INCREASE = 0.7;
 	const float FPS = 60;
 	Player player;
@@ -103,17 +103,22 @@ int main()
 				player.x = RIGHT_END;
 				player.speed = -abs(2 * player.speed);
 			}
-			else if (abs(player.speed) < 1)player.speed = 0;
+			else if (abs(player.speed) < 1 && player.x < LEFT_END) {
+				player.x = LEFT_END;
+				player.speed = -player.speed;
+			}
+
+			//else if (abs(player.speed) < 1)player.speed = 0;
 			else if (player.speed > 0 && player.x < RIGHT_END)
 			{
-				player.speed -= SPEED_SLOWDOWN;
+				player.speed*= SPEED_SLOWDOWN;
 				player.x += player.speed;
 				if (player.x > RIGHT_END)player.x = RIGHT_END;
 			}
 			else if (player.speed > 0 && player.x >= RIGHT_END)player.speed = 0;
 			else if (player.speed < 0 && player.x > LEFT_END)
 			{
-				player.speed += SPEED_SLOWDOWN;
+				player.speed *= SPEED_SLOWDOWN;
 				player.x += player.speed;
 				if (player.x < LEFT_END)player.x = LEFT_END;
 			}
