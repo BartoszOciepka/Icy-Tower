@@ -1,0 +1,29 @@
+#include <vector>
+#pragma once
+
+class Player;
+struct ALLEGRO_KEYBOARD_STATE;
+
+class Map
+{
+public:
+	
+	int RIGHT_END;				//Right boundaries
+	int LEFT_END;				//Left boundaries
+	float SPEED_SLOWDOWN;		//How much the speed slows when no key pressed
+	float SPEED_INCREASE;		//How much the speed increases when no key pressed
+	float VERTICAL_SLOWDOWN;	//Makes the character fall down
+	float END_Y;						//jump ending Y, see Player.jump_height
+	std::vector <int> YCoordinateIceBlock;	//vector to store Y-coordinates on which character can stand
+	std::vector <int> IceBlocksXStart;		//vector to store the X-coordinates on which character can stand
+	std::vector<int> IceBlocksXEnd;
+
+	Map();
+	
+
+	void updateSpeed(Player & player, ALLEGRO_KEYBOARD_STATE klawiatura);
+	void MoveCharacter(Player & player);
+	~Map();
+};
+
+
