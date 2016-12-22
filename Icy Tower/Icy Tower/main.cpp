@@ -11,7 +11,7 @@
 
 //*********************************************************** CONTROL PANEL ********************************************************************
 
-const float FPS = 50;					//FPS number
+const float FPS = 60;					//FPS number
 bool done = false;						//true if program should end
 
 
@@ -19,6 +19,7 @@ bool done = false;						//true if program should end
 
 int main()
 { 
+	srand(time(NULL));
 	Player player;
 	Map map;
 
@@ -33,20 +34,31 @@ int main()
 	al_set_window_title(okno, "Icy Tower");
 	ALLEGRO_BITMAP *obrazek = al_load_bitmap("icytower-bck.png");
 	ALLEGRO_BITMAP * player_bitmap = al_load_bitmap("champ.png");
+	ALLEGRO_BITMAP * platform = al_load_bitmap("platform.png");
 	ALLEGRO_TIMER *timer = al_create_timer(1.0 / FPS);
 	ALLEGRO_EVENT_QUEUE * event_queue = al_create_event_queue();
 	al_register_event_source(event_queue, al_get_display_event_source(okno));
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
 
+	bool move = false;																//Need to go away, works but is not intuitive
+
 	al_start_timer(timer);
 	
 	while (!done)
 	{
+		map.counter++;
 		al_get_keyboard_state(&klawiatura);
 		al_clear_to_color(al_map_rgb(0, 255, 0));
 		al_draw_bitmap(obrazek, 0, 0, 0);
 		al_draw_bitmap(player_bitmap, player.x, player.y, 0);
+		for (std::vector<int>::iterator it = map.YCoordinateIceBlock.begin(), it2 = map.IceBlocksXStart.begin(); it != map.YCoordinateIceBlock.end(), it2 != map.IceBlocksXStart.end(); ++it, ++it2)
+		{
+			if (*it != 570)
+			{
+				al_draw_bitmap(platform, *it2, *it, 0);
+			}
+		}
 		std::string x = std::to_string(player.speed);
 		const char *y = x.c_str();
 		al_draw_text(font, al_map_rgb(255, 255, 255), 640 / 2, (480 / 4), ALLEGRO_ALIGN_CENTRE, y);
@@ -61,11 +73,16 @@ int main()
 		if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)done = true;
 		if (event.type == ALLEGRO_EVENT_TIMER)
 		{
-			map.MoveCharacter(player);
+			map.MoveCharacter(player, map);
 
 			map.updateSpeed(player, klawiatura);
 
-
+			if (player.y < 400 || move )
+			{
+				move++;
+				if (map.counter % 5 == 0)
+					map.MoveMap(map, player);
+			}
 			
 		}
 	}
