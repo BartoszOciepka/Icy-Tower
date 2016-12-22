@@ -18,7 +18,7 @@ Map::Map()
 	this->SPEED_INCREASE = 0.75;
 	this->VERTICAL_SLOWDOWN = 0.4;
 	this->END_Y = 0;	
-	this->DISTANCE_BETWEEN_PLATFORMS = 90;
+	this->DISTANCE_BETWEEN_PLATFORMS = 150;
 	this->JUMPING_MULTIPLIER = 0.5;
 	this->counter = 1;
 	this->moveMap = false;
@@ -67,7 +67,7 @@ void Map::updateSpeed(Player & player, ALLEGRO_KEYBOARD_STATE klawiatura)
 	if (abs(player.speed) < 0.05) player.speed = 0;			//stopping when speed low
 
 	if (al_key_down(&klawiatura, ALLEGRO_KEY_UP) && player.vertical_speed == 0) {
-		player.vertical_speed = 5 + (this->JUMPING_MULTIPLIER * abs(player.speed));																	//IMPORTANT!!! jumping mulipliers
+		player.vertical_speed = 10 + (this->JUMPING_MULTIPLIER * abs(player.speed));																	//IMPORTANT!!! jumping mulipliers
 	}
 
 	else if (player.vertical_speed != 0) {					//When in mid-air it checks for platform to land on or slows player
