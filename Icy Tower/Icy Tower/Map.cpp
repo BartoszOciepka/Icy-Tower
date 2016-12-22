@@ -22,7 +22,7 @@ Map::Map()
 	this->JUMPING_MULTIPLIER = 0.5;
 	this->counter = 1;
 	this->moveMap = false;
-	this->MINIMAL_VERTICAL_SPEED = 5;
+	this->MINIMAL_VERTICAL_SPEED = 9;
 	
 	this->YCoordinateIceBlock.push_back(570);												//
 	this->IceBlocksXStart.push_back(50);													//
