@@ -18,11 +18,11 @@ Map::Map()
 	this->SPEED_INCREASE = 0.75;
 	this->VERTICAL_SLOWDOWN = 0.4;
 	this->END_Y = 0;	
-	this->DISTANCE_BETWEEN_PLATFORMS = 150;
-	this->JUMPING_MULTIPLIER = 0.5;
+	this->DISTANCE_BETWEEN_PLATFORMS = 110;
+	this->JUMPING_MULTIPLIER = 0.2;
 	this->counter = 1;
 	this->moveMap = false;
-	this->MINIMAL_VERTICAL_SPEED = 5;
+	this->MINIMAL_VERTICAL_SPEED = 9;
 	
 	this->YCoordinateIceBlock.push_back(570);												//
 	this->IceBlocksXStart.push_back(50);													//
