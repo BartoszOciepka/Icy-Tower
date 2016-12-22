@@ -22,6 +22,7 @@ Map::Map()
 	this->JUMPING_MULTIPLIER = 0.5;
 	this->counter = 1;
 	this->moveMap = false;
+	this->MINIMAL_VERTICAL_SPEED = 5;
 	
 	this->YCoordinateIceBlock.push_back(570);												//
 	this->IceBlocksXStart.push_back(50);													//
@@ -67,7 +68,7 @@ void Map::updateSpeed(Player & player, ALLEGRO_KEYBOARD_STATE klawiatura)
 	if (abs(player.speed) < 0.05) player.speed = 0;			//stopping when speed low
 
 	if (al_key_down(&klawiatura, ALLEGRO_KEY_UP) && player.vertical_speed == 0) {
-		player.vertical_speed = 5 + (this->JUMPING_MULTIPLIER * abs(player.speed));																	//IMPORTANT!!! jumping mulipliers
+		player.vertical_speed = this->MINIMAL_VERTICAL_SPEED + (this->JUMPING_MULTIPLIER * abs(player.speed));																	//IMPORTANT!!! jumping mulipliers
 	}
 
 	else if (player.vertical_speed != 0) {					//When in mid-air it checks for platform to land on or slows player

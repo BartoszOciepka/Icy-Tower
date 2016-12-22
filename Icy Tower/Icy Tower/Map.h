@@ -22,6 +22,7 @@ public:
 	int counter;
 	bool moveMap;
 	int PixelsMoved;
+	int MINIMAL_VERTICAL_SPEED;
 
 	Map();
 	
