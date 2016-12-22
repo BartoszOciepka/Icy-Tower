@@ -15,9 +15,9 @@ Map::Map()
 	this->SPEED_INCREASE = 0.75;
 	this->VERTICAL_SLOWDOWN = 0.4;
 	this->END_Y = 0;						
-	this->YCoordinateIceBlock.push_back(570);	
+	this->YCoordinateIceBlock.push_back(500);	
 	this->IceBlocksXStart.push_back(0);
-	this->IceBlocksXEnd.push_back(600);
+	this->IceBlocksXEnd.push_back(300);
 }
 
 
