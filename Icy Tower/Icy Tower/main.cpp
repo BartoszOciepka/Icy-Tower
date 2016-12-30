@@ -11,7 +11,7 @@
 
 //*********************************************************** CONTROL PANEL ********************************************************************
 
-const float FPS = 60;					//FPS number
+const float FPS = 80;					//FPS number
 bool done = false;						//true if program should end
 
 
@@ -33,7 +33,7 @@ int main()
 	ALLEGRO_FONT *font = al_load_ttf_font("raidercrusader.ttf", 72, 0);
 	al_set_window_title(okno, "Icy Tower");
 	ALLEGRO_BITMAP *obrazek = al_load_bitmap("icytower-bck.png");
-	ALLEGRO_BITMAP * player_bitmap = al_load_bitmap("champ.png");
+	ALLEGRO_BITMAP * player_bitmap = al_load_bitmap("Icy_Tower_champ.png");
 	ALLEGRO_BITMAP * platform = al_load_bitmap("platform.png");
 	ALLEGRO_TIMER *timer = al_create_timer(1.0 / FPS);
 	ALLEGRO_EVENT_QUEUE * event_queue = al_create_event_queue();
@@ -81,7 +81,7 @@ int main()
 			{
 				move++;
 				if (map.counter % 5 == 0)
-					map.MoveMap(map, player);
+					map.MoveMap(map, player, map.PLATFORM_MOVE_VECTOR);
 			}
 			
 		}

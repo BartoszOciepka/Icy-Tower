@@ -18,11 +18,12 @@ Map::Map()
 	this->SPEED_INCREASE = 0.75;
 	this->VERTICAL_SLOWDOWN = 0.4;
 	this->END_Y = 0;	
-	this->DISTANCE_BETWEEN_PLATFORMS = 160;
+	this->DISTANCE_BETWEEN_PLATFORMS = 100;
 	this->JUMPING_MULTIPLIER = 0.5;
 	this->counter = 1;
 	this->moveMap = false;
 	this->MINIMAL_VERTICAL_SPEED = 9;
+	this->PLATFORM_MOVE_VECTOR = 4;
 	
 	this->YCoordinateIceBlock.push_back(570);												//
 	this->IceBlocksXStart.push_back(50);													//
@@ -44,6 +45,15 @@ Map::Map()
 
 Map::~Map()
 {
+}
+
+bool Map::isOnPlatform(Map & map, Player & player)
+{
+	for (std::vector<int>::iterator it = map.YCoordinateIceBlock.begin(); it != map.YCoordinateIceBlock.end(); ++it)
+	{
+		if (*it == (player.y+player.height))return true;
+	}
+	return false;
 }
 
 void Map::updateSpeed(Player & player, ALLEGRO_KEYBOARD_STATE klawiatura)
@@ -103,10 +113,16 @@ void Map::updateSpeed(Player & player, ALLEGRO_KEYBOARD_STATE klawiatura)
 	}
 }
 
-void Map::MoveCharacter(Player & player, Map map)
+void Map::MoveCharacter(Player & player, Map & map)
 {
 	player.x += player.speed;
 	player.y -= player.vertical_speed;
+
+	if (player.y < 200)
+	{
+		map.MoveMap(map, player, 200-player.y);
+		player.y = 200;
+	}
 
 	if (player.vertical_speed == 0)			//checking if player falls down
 	{
@@ -124,12 +140,14 @@ void Map::MoveCharacter(Player & player, Map map)
 	}
 }
 
-void Map::MoveMap(Map & map, Player player) { // moves the platforms down
+void Map::MoveMap(Map & map, Player & player, int platform_move_vector) { // moves the platforms down
 	std::vector<int>::iterator it = map.YCoordinateIceBlock.begin();
+
+	if (map.isOnPlatform(map, player))player.y += platform_move_vector;
 
 	while(it != YCoordinateIceBlock.end())
 	{
-		if (*it == 570 || *it == 550)
+		if (*it > 570)
 		{
 			int distance = std::distance(map.YCoordinateIceBlock.begin(), it);
 			map.YCoordinateIceBlock.erase(it);
@@ -139,21 +157,21 @@ void Map::MoveMap(Map & map, Player player) { // moves the platforms down
 		}
 		else
 		{
-			*it += 3;
+			*it += platform_move_vector;
 			it++;
 		}
 
-		
 	}
 
-	PixelsMoved+=3;
+	int highestPlatformY = map.YCoordinateIceBlock[map.YCoordinateIceBlock.size() - 1];	//gets highest platform
 
-	if (map.PixelsMoved % map.DISTANCE_BETWEEN_PLATFORMS == 0)
+	highestPlatformY -= map.DISTANCE_BETWEEN_PLATFORMS;		//checks if new platform should be generated, if so highest platforms will be higher than 0
+
+	while (highestPlatformY > 0)
 	{
-		this->YCoordinateIceBlock.push_back(0);										//
+		this->YCoordinateIceBlock.push_back(highestPlatformY);										
 		this->IceBlocksXStart.push_back((std::rand() % 337) + 50);							//
 		this->IceBlockLength.push_back(200);
+		highestPlatformY -= map.DISTANCE_BETWEEN_PLATFORMS;
 	}
-
-	//if (player.vertical_speed == 0 && )player.y += 1;					TO DO
 }
