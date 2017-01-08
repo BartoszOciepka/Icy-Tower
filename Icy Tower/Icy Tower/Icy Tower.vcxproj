@@ -74,12 +74,16 @@
     <Allegro_AddonImage>true</Allegro_AddonImage>
     <Allegro_AddonFont>true</Allegro_AddonFont>
     <Allegro_AddonTTF>true</Allegro_AddonTTF>
+    <Allegro_AddonAudio>true</Allegro_AddonAudio>
+    <Allegro_AddonAcodec>true</Allegro_AddonAcodec>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <Allegro_AddonImage>true</Allegro_AddonImage>
     <Allegro_AddonFont>true</Allegro_AddonFont>
     <Allegro_AddonTTF>true</Allegro_AddonTTF>
+    <Allegro_AddonAudio>true</Allegro_AddonAudio>
+    <Allegro_AddonAcodec>true</Allegro_AddonAcodec>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
