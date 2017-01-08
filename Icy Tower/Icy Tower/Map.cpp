@@ -3,6 +3,8 @@
 #include "Player.h"
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 #include <algorithm>
 #include <iterator>
 #include <cstdlib>
@@ -14,16 +16,22 @@ Map::Map()
 {
 	this->RIGHT_END = 537;				
 	this->LEFT_END = 50;				
-	this->SPEED_SLOWDOWN = 0.9;		
-	this->SPEED_INCREASE = 0.75;
-	this->VERTICAL_SLOWDOWN = 0.4;
+	this->SPEED_SLOWDOWN = 0.6;		
+	this->SPEED_INCREASE = 0.1;
+	this->VERTICAL_SLOWDOWN = 0.05;
 	this->END_Y = 0;	
 	this->DISTANCE_BETWEEN_PLATFORMS = 100;
-	this->JUMPING_MULTIPLIER = 0.5;
+	this->JUMPING_MULTIPLIER = 0.02;
 	this->counter = 1;
 	this->moveMap = false;
-	this->MINIMAL_VERTICAL_SPEED = 9;
-	this->PLATFORM_MOVE_VECTOR = 4;
+	this->MINIMAL_VERTICAL_SPEED = 5;
+	this->PLATFORM_MOVE_VECTOR = 3;
+	this->leftBounceCounter = 0;
+	this->rightBounceCounter = 0;
+	this->BounceTimer = 60;
+	this->speedBoost = 2;
+	this->verticalSpeedBoost = 1;
+	this->bitmapMove = 600;
 	
 	this->YCoordinateIceBlock.push_back(570);												//
 	this->IceBlocksXStart.push_back(50);													//
@@ -56,29 +64,69 @@ bool Map::isOnPlatform(Map & map, Player & player)
 	return false;
 }
 
-void Map::updateSpeed(Player & player, ALLEGRO_KEYBOARD_STATE klawiatura)
+void Map::updateSpeed(Player & player, ALLEGRO_KEYBOARD_STATE klawiatura, bool & done)
 {
 	if (player.x > this->RIGHT_END)player.x = this->RIGHT_END;			//if champion is outside the tower 
 	else if (player.x < this->LEFT_END)player.x = this->LEFT_END;		//teleport to END
 
-	if (player.x == this->RIGHT_END) {							//bouncing from a wall, 
-		player.speed = -player.speed - 1;					//needs to be changed to only occur when direction is changed fast after wall hit
+	if (player.x == this->RIGHT_END && player.vertical_speed > 0) {
+		player.speed = -player.speed - 0.005;
+		this->rightBounceCounter = this->BounceTimer;
+	}
+
+	else if (player.x == this->LEFT_END && player.vertical_speed > 0) {
+		player.speed = -player.speed + 0.005;
+		this->leftBounceCounter = this->BounceTimer;
+	}
+
+	else if (player.x == this->RIGHT_END) {							//bouncing from a wall, 
+		player.speed = -player.speed - 0.005;					//needs to be changed to only occur when direction is changed fast after wall hit
+		player.x -= 1;
 	}
 	else if (player.x == this->LEFT_END) {
-		player.speed = -player.speed + 1;
+		player.speed = -player.speed + 0.005;
+		player.x += 1;
+	}
+
+	else if (al_key_down(&klawiatura, ALLEGRO_KEY_RIGHT) && abs(player.speed) < abs(player.max_speed) && player.vertical_speed > 0 && this->leftBounceCounter>0)
+	{
+		player.speed += this->SPEED_INCREASE;			//accelerating right
+		player.vertical_speed += this->verticalSpeedBoost*abs(player.speed);
+		this->leftBounceCounter = 0;
+		ALLEGRO_SAMPLE *sample1 = NULL;
+		sample1 = al_load_sample("preview_3458775 (1).wav");
+		if (!sample1)
+		{
+			this->leftBounceCounter = 0;
+		}
+		al_play_sample(sample1, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 	}
 
 	else if (al_key_down(&klawiatura, ALLEGRO_KEY_RIGHT) && abs(player.speed) < abs(player.max_speed))player.speed += this->SPEED_INCREASE;			//accelerating right
+
+	else if (al_key_down(&klawiatura, ALLEGRO_KEY_LEFT) && abs(player.speed) < abs(player.max_speed) && player.vertical_speed > 0 && this->rightBounceCounter > 0)
+	{
+		player.speed -= this->SPEED_INCREASE;			//accelerating left
+		player.vertical_speed += this->verticalSpeedBoost*abs(player.speed);
+		this->rightBounceCounter = 0;
+		ALLEGRO_SAMPLE *sample = NULL;
+		sample = al_load_sample("preview_3458775 (1).wav");
+		al_play_sample(sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+	}
+
 
 	else if (al_key_down(&klawiatura, ALLEGRO_KEY_LEFT) && abs(player.speed) < abs(player.max_speed))player.speed -= this->SPEED_INCREASE;			//accelerating left
 
 
 	else player.speed *= this->SPEED_SLOWDOWN;				//slowing down when nothing pressed
 
-	if (abs(player.speed) < 0.05) player.speed = 0;			//stopping when speed low
+	if (abs(player.speed) < 0.005) player.speed = 0;			//stopping when speed low
 
 	if (al_key_down(&klawiatura, ALLEGRO_KEY_UP) && player.vertical_speed == 0) {
 		player.vertical_speed = this->MINIMAL_VERTICAL_SPEED + (this->JUMPING_MULTIPLIER * abs(player.speed));																	//IMPORTANT!!! jumping mulipliers
+		ALLEGRO_SAMPLE *sample = NULL;
+		sample = al_load_sample("jump.wav");
+		al_play_sample(sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 	}
 
 	else if (player.vertical_speed != 0) {					//When in mid-air it checks for platform to land on or slows player
@@ -109,6 +157,9 @@ void Map::updateSpeed(Player & player, ALLEGRO_KEYBOARD_STATE klawiatura)
 
 
 		//if (abs(min) < 2 && player.x > (this->IceBlocksXStart[position]-player.width) && player.x < (this->IceBlocksXStart[position] + this->IceBlockLength[position]))player.vertical_speed = 0;
+		if (player.y > 640)done = true;
+		if (this->rightBounceCounter != 0)this->rightBounceCounter--;
+		if (this->leftBounceCounter != 0)this->leftBounceCounter--;
 
 	}
 }
@@ -145,9 +196,18 @@ void Map::MoveMap(Map & map, Player & player, int platform_move_vector) { // mov
 
 	if (map.isOnPlatform(map, player))player.y += platform_move_vector;
 
+		this->bitmapMove -= platform_move_vector;
+
+		if (this->bitmapMove < -600)
+		{
+			this->bitmapMove += 1200;
+		}
+
+
+
 	while(it != YCoordinateIceBlock.end())
 	{
-		if (*it > 570)
+		if (*it > 640)
 		{
 			int distance = std::distance(map.YCoordinateIceBlock.begin(), it);
 			map.YCoordinateIceBlock.erase(it);
