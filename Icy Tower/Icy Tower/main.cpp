@@ -172,9 +172,6 @@ int main()
 
 	al_destroy_display(okno);
 	al_destroy_bitmap(obrazek);
-	al_destroy_bitmap(menu1);
-	al_destroy_bitmap(menu2);
-	al_destroy_bitmap(menu3);
 
 	return 0;
 }
