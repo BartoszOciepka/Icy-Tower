@@ -24,17 +24,11 @@ public:
 	int PixelsMoved;
 	int MINIMAL_VERTICAL_SPEED;
 	int PLATFORM_MOVE_VECTOR;			//tells how much platforms move down, used in MovePlatform method
-	int leftBounceCounter;
-	int rightBounceCounter;
-	int BounceTimer;
-	int speedBoost;
-	int verticalSpeedBoost;
-	int bitmapMove;
 
 	Map();
 	
 
-	void updateSpeed(Player & player, ALLEGRO_KEYBOARD_STATE klawiatura, bool & done);
+	void updateSpeed(Player & player, ALLEGRO_KEYBOARD_STATE klawiatura);
 	void MoveCharacter(Player & player, Map & map);
 	void MoveMap(Map & map, Player & player, int platform_move_vector);
 	bool isOnPlatform(Map & map, Player & player);
