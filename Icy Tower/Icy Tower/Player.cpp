@@ -12,6 +12,7 @@ Player::Player()
 	this->jump = false;
 	this->height = 70;
 	this->width = 50;
+	this->points = -1;
 }
 
 

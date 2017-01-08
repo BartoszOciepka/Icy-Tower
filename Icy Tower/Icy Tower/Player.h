@@ -13,5 +13,6 @@ public:
 	bool jump;						//true if character is jumping
 	int height;
 	int width;
+	int points;
 };
 

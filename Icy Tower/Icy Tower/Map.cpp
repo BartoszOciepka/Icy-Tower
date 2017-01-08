@@ -43,7 +43,8 @@ Map::Map()
 	{																						//
 		this->YCoordinateIceBlock.push_back(PlatformY);										//
 		this->IceBlocksXStart.push_back((std::rand() % 337) + 50);							//
-		this->IceBlockLength.push_back(200);												//
+		this->IceBlockLength.push_back(200);	
+		this->AddedToPoints.push_back(false);//
 																							//
 		PlatformY -= this->DISTANCE_BETWEEN_PLATFORMS;										//
 	}																						//
@@ -94,7 +95,7 @@ void Map::updateSpeed(Player & player, ALLEGRO_KEYBOARD_STATE klawiatura, bool &
 		player.vertical_speed += this->verticalSpeedBoost*abs(player.speed);
 		this->leftBounceCounter = 0;
 		ALLEGRO_SAMPLE *sample1 = NULL;
-		sample1 = al_load_sample("preview_3458775 (1).wav");
+		sample1 = al_load_sample("resources/yuppi.wav");
 		if (!sample1)
 		{
 			this->leftBounceCounter = 0;
@@ -110,7 +111,7 @@ void Map::updateSpeed(Player & player, ALLEGRO_KEYBOARD_STATE klawiatura, bool &
 		player.vertical_speed += this->verticalSpeedBoost*abs(player.speed);
 		this->rightBounceCounter = 0;
 		ALLEGRO_SAMPLE *sample = NULL;
-		sample = al_load_sample("preview_3458775 (1).wav");
+		sample = al_load_sample("resources/yuppi.wav");
 		al_play_sample(sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 	}
 
@@ -125,8 +126,8 @@ void Map::updateSpeed(Player & player, ALLEGRO_KEYBOARD_STATE klawiatura, bool &
 	if (al_key_down(&klawiatura, ALLEGRO_KEY_UP) && player.vertical_speed == 0) {
 		player.vertical_speed = this->MINIMAL_VERTICAL_SPEED + (this->JUMPING_MULTIPLIER * abs(player.speed));																	//IMPORTANT!!! jumping mulipliers
 		ALLEGRO_SAMPLE *sample = NULL;
-		sample = al_load_sample("jump.wav");
-		al_play_sample(sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+		sample = al_load_sample("resources/jump.wav");
+		al_play_sample(sample, 0.5, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 	}
 
 	else if (player.vertical_speed != 0) {					//When in mid-air it checks for platform to land on or slows player
@@ -189,6 +190,17 @@ void Map::MoveCharacter(Player & player, Map & map)
 		player.vertical_speed = -0.3;
 		}
 	}
+
+	std::vector<bool>::iterator it2 = map.AddedToPoints.begin();
+	for (std::vector<int>::iterator it = map.YCoordinateIceBlock.begin(); it != map.YCoordinateIceBlock.end(); it++)
+	{
+		if (*it > player.y && *it2 == false)
+		{
+			*it2 = true;
+			player.points++;
+		}
+		it2++;
+	}
 }
 
 void Map::MoveMap(Map & map, Player & player, int platform_move_vector) { // moves the platforms down
@@ -213,6 +225,7 @@ void Map::MoveMap(Map & map, Player & player, int platform_move_vector) { // mov
 			map.YCoordinateIceBlock.erase(it);
 			map.IceBlocksXStart.erase(map.IceBlocksXStart.begin() + distance);
 			map.IceBlockLength.erase(map.IceBlockLength.begin() + distance);
+			map.AddedToPoints.erase(map.AddedToPoints.begin());
 			it = map.YCoordinateIceBlock.begin();
 		}
 		else
@@ -232,6 +245,7 @@ void Map::MoveMap(Map & map, Player & player, int platform_move_vector) { // mov
 		this->YCoordinateIceBlock.push_back(highestPlatformY);										
 		this->IceBlocksXStart.push_back((std::rand() % 337) + 50);							//
 		this->IceBlockLength.push_back(200);
+		this->AddedToPoints.push_back(false);
 		highestPlatformY -= map.DISTANCE_BETWEEN_PLATFORMS;
 	}
 }
