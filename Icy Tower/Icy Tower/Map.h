@@ -17,6 +17,7 @@ public:
 	std::vector <int> YCoordinateIceBlock;	//vector to store Y-coordinates on which character can stand
 	std::vector <int> IceBlocksXStart;		//vector to store the X-coordinates on which character can stand
 	std::vector <int> IceBlockLength;		//length of the platforms, currently stuck at 100 but willget changed
+	std::vector <bool> AddedToPoints;
 	int DISTANCE_BETWEEN_PLATFORMS;		//just what it says, how far away are the platforms
 	float JUMPING_MULTIPLIER;			//says how much vertical_speed you will gain, the function for it is 5 + (JUMPING_MULTIPLIER * player.speed)
 	int counter;
