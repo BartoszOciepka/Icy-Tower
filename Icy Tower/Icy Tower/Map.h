@@ -29,7 +29,7 @@ public:
 	int rightBounceCounter;
 	int BounceTimer;
 	int speedBoost;
-	int verticalSpeedBoost;
+	float verticalSpeedBoost;
 	int bitmapMove;
 
 	Map();

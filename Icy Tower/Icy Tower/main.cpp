@@ -103,9 +103,9 @@ int main()
 								break;
 							case 1:button = al_show_native_message_box(
 								okno,
-								"Icy Tower(clone)",
+								"Icy Tower (clone)",
 								"Projekt na przedmiot programowanie III",
-								"Projekt stworzony przez\n\nBartosz Ociepke\nBeniamina Stecule\n\nGliwice 2017",
+								"Projekt wykonali:\n\nBartosz Ociepka\nBeniamin Stecula\n\nGliwice 2017",
 								NULL,
 								NULL
 							);
