@@ -20,16 +20,16 @@ Map::Map()
 	this->SPEED_INCREASE = 0.1;
 	this->VERTICAL_SLOWDOWN = 0.05;
 	this->DISTANCE_BETWEEN_PLATFORMS = 100;
-	this->JUMPING_MULTIPLIER = 0.02;
+	this->JUMPING_MULTIPLIER = 0.22;
 	this->counter = 1;
 	this->moveMap = false;
-	this->MINIMAL_VERTICAL_SPEED = 5;
-	this->PLATFORM_MOVE_VECTOR = 3;
+	this->MINIMAL_VERTICAL_SPEED = 3;
+	this->PLATFORM_MOVE_VECTOR = 6;
 	this->leftBounceCounter = 0;
 	this->rightBounceCounter = 0;
-	this->BounceTimer = 60;
-	this->speedBoost = 2;
-	this->verticalSpeedBoost = 1;
+	this->BounceTimer = 150;
+//	this->speedBoost = 2;
+	this->verticalSpeedBoost = 0.33;
 	this->bitmapMove = 600;
 	
 	this->YCoordinateIceBlock.push_back(570);												//

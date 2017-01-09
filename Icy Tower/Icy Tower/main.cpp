@@ -42,8 +42,8 @@ int main()
 	al_set_window_title(okno, "Icy Tower");
 	ALLEGRO_BITMAP *obrazek = al_load_bitmap("resources/icytower-bck.png");
 	ALLEGRO_BITMAP *obrazek2 = al_load_bitmap("resources/srodek.png");
-	ALLEGRO_BITMAP * player_bitmap = al_load_bitmap("resources/Icy_Tower_champ.png");
-	ALLEGRO_BITMAP * platform = al_load_bitmap("resources/platform.png");
+	ALLEGRO_BITMAP * player_bitmap = al_load_bitmap("resources/test.png");
+	ALLEGRO_BITMAP * platform = al_load_bitmap("resources/platforma.png");
 	ALLEGRO_TIMER *timer = al_create_timer(1.0 / FPS);
 	ALLEGRO_EVENT_QUEUE * event_queue = al_create_event_queue();
 	ALLEGRO_FONT *font = al_load_ttf_font("resources/raidercrusader.ttf", 30, 0);
@@ -103,9 +103,9 @@ int main()
 								break;
 							case 1:button = al_show_native_message_box(
 								okno,
-								"Icy Tower(clone)",
+								"Icy Tower (clone)",
 								"Projekt na przedmiot programowanie III",
-								"Projekt stworzony przez\n\nBartosz Ociepke\nBeniamina Stecule\n\nGliwice 2017",
+								"Projekt wykonali:\n\nBartosz Ociepka\nBeniamin Stecula\n\nGliwice 2017",
 								NULL,
 								NULL
 							);
