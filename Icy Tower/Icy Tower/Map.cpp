@@ -19,7 +19,6 @@ Map::Map()
 	this->SPEED_SLOWDOWN = 0.6;		
 	this->SPEED_INCREASE = 0.1;
 	this->VERTICAL_SLOWDOWN = 0.05;
-	this->END_Y = 0;	
 	this->DISTANCE_BETWEEN_PLATFORMS = 100;
 	this->JUMPING_MULTIPLIER = 0.02;
 	this->counter = 1;

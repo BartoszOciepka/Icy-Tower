@@ -174,21 +174,25 @@ int main()
 
 			}
 
+			if (done) {
+				std::string punkty = "Zdobyles " + std::to_string(player.points) + " punktow.";
+				char const *pchar = punkty.c_str();
+
+				int button = al_show_native_message_box(
+					okno,
+					"Koniec gry",
+					"Dobra robota :)",
+					pchar,
+					NULL,
+					NULL
+				);
+			}
 		}
+		
 
 	}
 
-	std::string punkty = "Zdobyles " + std::to_string(player.points) + " punktow.";
-	char const *pchar = punkty.c_str();
-
-	int button = al_show_native_message_box(
-		okno,
-		"Koniec gry",
-		"Dobra robota :)",
-		pchar,
-		NULL,
-		NULL
-	);
+	
 
 	al_destroy_display(okno);
 	al_destroy_bitmap(obrazek);

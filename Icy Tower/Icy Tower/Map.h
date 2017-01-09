@@ -13,7 +13,6 @@ public:
 	float SPEED_SLOWDOWN;		//How much the speed slows when no key pressed
 	float SPEED_INCREASE;		//How much the speed increases when no key pressed
 	float VERTICAL_SLOWDOWN;	//Makes the character fall down
-	float END_Y;						//jump ending Y, see Player.jump_height
 	std::vector <int> YCoordinateIceBlock;	//vector to store Y-coordinates on which character can stand
 	std::vector <int> IceBlocksXStart;		//vector to store the X-coordinates on which character can stand
 	std::vector <int> IceBlockLength;		//length of the platforms, currently stuck at 100 but willget changed
